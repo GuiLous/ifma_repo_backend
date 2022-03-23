@@ -1,1 +1,1 @@
-An API for a InstitutionalRepository
+An API for a Institutional Repository
