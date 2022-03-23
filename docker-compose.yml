@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  database:
+    image: postgres
+    container_name: ecommerce
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=feijao1221
+      - POSTGRES_DB=ecommerce
+    volumes:
+      - pgdata:/data/postgres
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+
+volumes:
+  pgdata:
+    driver: local
