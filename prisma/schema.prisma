@@ -21,6 +21,8 @@ model User {
   created_at DateTime @default(now())
 
   users_Token Users_Token[]
+  Monograph   Monograph[]
+
   @@map("user")
 }
 
@@ -34,4 +36,50 @@ model Users_Token {
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("users_token")
+}
+
+model Monograph {
+  id              String   @id @default(uuid())
+  title           String
+  authors         String
+  advisor         String
+  coAdvisors      String?
+  published_date  DateTime
+  published_local String
+  resumo          String
+  abstract        String
+  keyWords        String
+  number_pages    Int
+  references      String
+  pdf_url         String?
+  knowledge_id    String
+  course_id       String
+  user_id         String
+  created_at      DateTime @default(now())
+
+  knowledge_area Knowledge_Area @relation(fields: [knowledge_id], references: [id], onDelete: SetNull, onUpdate: SetNull)
+  course         Course         @relation(fields: [course_id], references: [id], onDelete: SetNull, onUpdate: SetNull)
+  user           User           @relation(fields: [user_id], references: [id], onDelete: SetNull, onUpdate: SetNull)
+
+  @@map("monograph")
+}
+
+model Knowledge_Area {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  created_at DateTime @default(now())
+
+  monograph Monograph[]
+
+  @@map("knowledge_area")
+}
+
+model Course {
+  id         String   @id @default(uuid())
+  name       String
+  created_at DateTime @default(now())
+
+  Monograph Monograph[]
+
+  @@map("course")
 }
