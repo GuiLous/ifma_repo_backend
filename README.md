@@ -1,4 +1,1 @@
-# api-rentx-rocketseat
-An api for cars rent
-
-Api construido no Ignite da RocketSeat
+An API for a Institutional Repository
