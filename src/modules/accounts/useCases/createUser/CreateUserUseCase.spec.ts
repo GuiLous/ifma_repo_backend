@@ -32,8 +32,8 @@ describe('Create User', () => {
     await expect(
       createUserUseCase.execute({
         email: 'testeEmail@gmail.com',
-        password: '123',
-        fullName: 'teste test',
+        password: '321',
+        fullName: 'teste2 test2',
       }),
     ).rejects.toEqual(new AppError('User Already Exists!'));
   });

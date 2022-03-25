@@ -32,7 +32,7 @@ class UsersRepositoryInMemory implements IUsersRepository {
     return this.users.find(user => user.id === id);
   }
 
-  async updateUserPassword(userUpdated: User): Promise<User> {
+  async updateUser(userUpdated: User): Promise<User> {
     const userIndex = this.users.findIndex(
       user => user.email === userUpdated.email,
     );
@@ -40,6 +40,16 @@ class UsersRepositoryInMemory implements IUsersRepository {
     this.users[userIndex] = userUpdated;
 
     return this.users[userIndex];
+  }
+
+  async showAll(): Promise<User[]> {
+    return this.users;
+  }
+
+  async showAllAdvisors(): Promise<User[]> {
+    const advisors = this.users.filter(user => user.isAdvisor === true);
+
+    return advisors;
   }
 }
 

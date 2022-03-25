@@ -42,6 +42,7 @@ class MonographsRepositoryInMemory implements IMonographsRepository {
       knowledge_id,
       course_id,
       user_id,
+      verified: false,
       created_at: new Date(),
     };
 

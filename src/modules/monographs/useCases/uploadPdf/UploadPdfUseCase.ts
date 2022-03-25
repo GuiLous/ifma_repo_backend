@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { IMonographsRepository } from '@modules/monographs/repositories/IMonographsRepository';
 import { Monograph } from '@prisma/client';
 import { IStorageProvider } from '@shared/container/providers/StorageProvider/IStorageProvider';
+import { AppError } from '@shared/errors/AppError';
 
 interface IRequest {
   monograph_id: string;
@@ -20,6 +21,10 @@ class UploadPdfUseCase {
 
   async execute({ pdf_file, monograph_id }: IRequest): Promise<void> {
     const monograph = await this.monographsRepository.findById(monograph_id);
+
+    if (!monograph) {
+      throw new AppError('Monograph does not exists!');
+    }
 
     if (monograph.pdf_url) {
       await this.storageProvider.delete(monograph.pdf_url, 'pdf');

@@ -55,6 +55,7 @@ model Monograph {
   knowledge_id    String
   course_id       String
   user_id         String
+  verified        Boolean  @default(false)
   created_at      DateTime @default(now())
 
   knowledge_area Knowledge_Area @relation(fields: [knowledge_id], references: [id], onDelete: SetNull, onUpdate: SetNull)
