@@ -76,9 +76,16 @@ class MonographsRepositoryInMemory implements IMonographsRepository {
     return monograph;
   }
 
-  async showAll(): Promise<Monograph[]> {
+  async showAllVerified(): Promise<Monograph[]> {
     const all = this.monographs.filter(
       monograph => monograph.verified === true,
+    );
+    return all;
+  }
+
+  async showAllNotVerified(): Promise<Monograph[]> {
+    const all = this.monographs.filter(
+      monograph => monograph.verified === false,
     );
     return all;
   }

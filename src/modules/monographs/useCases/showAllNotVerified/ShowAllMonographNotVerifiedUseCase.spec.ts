@@ -1,25 +1,26 @@
 import { MonographsRepositoryInMemory } from '@modules/monographs/repositories/in-memory/MonographsRepositoryInMemory';
 
 import { CreateMonographUseCase } from '../createMonograph/CreateMonographUseCase';
-import { UpdateMonographAndVerifiedUseCase } from './UpdateMonographAndVerifiedUseCase';
+import { ShowAllMonographNotVerifiedUseCase } from './ShowAllMonographNotVerifiedUseCase';
 
 let monographsRepositoryInMemory: MonographsRepositoryInMemory;
 let createMonographUseCase: CreateMonographUseCase;
-let updateMonographAndVerifiedUseCase: UpdateMonographAndVerifiedUseCase;
+let showAllMonographNotVerifiedUseCase: ShowAllMonographNotVerifiedUseCase;
 
-describe('Update Verified Monograph', () => {
+describe('Show All Not Verified Monographs', () => {
   beforeEach(() => {
     monographsRepositoryInMemory = new MonographsRepositoryInMemory();
     createMonographUseCase = new CreateMonographUseCase(
       monographsRepositoryInMemory,
     );
-    updateMonographAndVerifiedUseCase = new UpdateMonographAndVerifiedUseCase(
+
+    showAllMonographNotVerifiedUseCase = new ShowAllMonographNotVerifiedUseCase(
       monographsRepositoryInMemory,
     );
   });
 
-  it('should be able to update the verified attribute on monograph', async () => {
-    const monograph = await createMonographUseCase.execute({
+  it('should be able to show all monographs Not verified', async () => {
+    await createMonographUseCase.execute({
       title: 'title test',
       authors: 'guilherme lourenco',
       advisor: 'bruna brandao',
@@ -35,11 +36,23 @@ describe('Update Verified Monograph', () => {
       user_id: '7cdab18a-6659-4042-a9bd-08564d37b628',
     });
 
-    const result = await updateMonographAndVerifiedUseCase.execute({
-      ...monograph,
+    await createMonographUseCase.execute({
+      title: 'title test2',
+      authors: 'guilherme lourenco',
+      advisor: 'bruna brandao',
+      resumo: 'resumo test2',
+      abstract: 'abstract test2',
+      keyWords: 'teste01;teste02',
+      number_pages: 40,
+      published_date: new Date(),
+      published_local: 'caxias - ma',
+      references: 'references test',
+      course_id: 'cfa5a816-fd65-4ac1-bb94-e36412734d0a',
+      knowledge_id: 'ee1a108e-fa28-4b30-a39e-3a7e9cb48a9f',
+      user_id: '7cdab18a-6659-4042-a9bd-08564d37b628',
     });
 
-    expect(result).toHaveProperty('id');
-    expect(result.verified).toBe(true);
+    const result = await showAllMonographNotVerifiedUseCase.execute();
+    expect(result).toHaveLength(2);
   });
 });

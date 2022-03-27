@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-return-assign */
 import { ICreateMonographDTO } from '@modules/monographs/dtos/ICreateMonographDTO';
 import { IMonographsRepository } from '@modules/monographs/repositories/IMonographsRepository';
 import { Monograph, PrismaClient } from '@prisma/client';
@@ -69,13 +71,33 @@ class MonographsRepository implements IMonographsRepository {
     return monograph;
   }
 
-  async showAll(): Promise<Monograph[]> {
+  async showAllVerified(): Promise<Monograph[]> {
     const all = await this.repository.monograph.findMany({
       where: {
         verified: true,
       },
     });
 
+    if (all.length > 0) {
+      all.map(
+        monograph => (monograph.pdf_url = updatePdfUrl(monograph.pdf_url)),
+      );
+    }
+    return all;
+  }
+
+  async showAllNotVerified(): Promise<Monograph[]> {
+    const all = await this.repository.monograph.findMany({
+      where: {
+        verified: false,
+      },
+    });
+
+    if (all.length > 0) {
+      all.map(
+        monograph => (monograph.pdf_url = updatePdfUrl(monograph.pdf_url)),
+      );
+    }
     return all;
   }
 }

@@ -3,7 +3,8 @@ import multer from 'multer';
 
 import uploadConfig from '@config/upload';
 import { CreateMonographController } from '@modules/monographs/useCases/createMonograph/CreateMonographController';
-import { ShowAllMonographController } from '@modules/monographs/useCases/showAll/ShowAllMonographController';
+import { ShowAllMonographNotVerifiedController } from '@modules/monographs/useCases/showAllNotVerified/ShowAllMonographNotVerifiedController';
+import { ShowAllMonographVerifiedController } from '@modules/monographs/useCases/showAllVerified/ShowAllMonographVerifiedController';
 import { ShowMonographController } from '@modules/monographs/useCases/showMonograph/ShowMonographController';
 import { UpdateMonographAndVerifiedController } from '@modules/monographs/useCases/updateMonographAndVerified/UpdateMonographAndVerifiedController';
 import { UploadPdfController } from '@modules/monographs/useCases/uploadPdf/UploadPdfController';
@@ -18,11 +19,20 @@ const uploadPdf = multer(uploadConfig);
 const createMonographController = new CreateMonographController();
 const uploadPdfController = new UploadPdfController();
 const showMonographController = new ShowMonographController();
-const showAllMonographController = new ShowAllMonographController();
+const showAllMonographVerifiedController =
+  new ShowAllMonographVerifiedController();
+const showAllMonographNotVerifiedController =
+  new ShowAllMonographNotVerifiedController();
 const updateMonographAndVerifiedController =
   new UpdateMonographAndVerifiedController();
 
-monographRoutes.get('/', showAllMonographController.handle);
+monographRoutes.get('/', showAllMonographVerifiedController.handle);
+monographRoutes.get(
+  '/not-verified',
+  ensureAuthenticated,
+  ensureAdmin,
+  showAllMonographNotVerifiedController.handle,
+);
 
 monographRoutes.get('/monograph', showMonographController.handle);
 

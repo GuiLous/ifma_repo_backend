@@ -1,11 +1,11 @@
 import { MonographsRepositoryInMemory } from '@modules/monographs/repositories/in-memory/MonographsRepositoryInMemory';
 
 import { CreateMonographUseCase } from '../createMonograph/CreateMonographUseCase';
-import { UpdateMonographAndVerifiedUseCase } from './UpdateMonographAndVerifiedUseCase';
+import { UpdateMonographUseCase } from './UpdateMonographUseCase';
 
 let monographsRepositoryInMemory: MonographsRepositoryInMemory;
 let createMonographUseCase: CreateMonographUseCase;
-let updateMonographAndVerifiedUseCase: UpdateMonographAndVerifiedUseCase;
+let updateMonographUseCase: UpdateMonographUseCase;
 
 describe('Update Verified Monograph', () => {
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('Update Verified Monograph', () => {
     createMonographUseCase = new CreateMonographUseCase(
       monographsRepositoryInMemory,
     );
-    updateMonographAndVerifiedUseCase = new UpdateMonographAndVerifiedUseCase(
+    updateMonographUseCase = new UpdateMonographUseCase(
       monographsRepositoryInMemory,
     );
   });
@@ -35,11 +35,9 @@ describe('Update Verified Monograph', () => {
       user_id: '7cdab18a-6659-4042-a9bd-08564d37b628',
     });
 
-    const result = await updateMonographAndVerifiedUseCase.execute({
-      ...monograph,
-    });
+    const result = await updateMonographUseCase.execute(monograph);
 
     expect(result).toHaveProperty('id');
-    expect(result.verified).toBe(true);
+    expect(result.verified).toBe(false);
   });
 });

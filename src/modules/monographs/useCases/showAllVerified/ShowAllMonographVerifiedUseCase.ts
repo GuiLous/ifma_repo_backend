@@ -5,16 +5,16 @@ import { IMonographsRepository } from '@modules/monographs/repositories/IMonogra
 import { Monograph } from '@prisma/client';
 
 @injectable()
-class ShowAllMonographUseCase {
+class ShowAllMonographVerifiedUseCase {
   constructor(
     @inject(MonographsRepository)
     private monographsRepository: IMonographsRepository,
   ) {}
   async execute(): Promise<Monograph[]> {
-    const all = await this.monographsRepository.showAll();
+    const all = await this.monographsRepository.showAllVerified();
 
     return all;
   }
 }
 
-export { ShowAllMonographUseCase };
+export { ShowAllMonographVerifiedUseCase };

@@ -2,14 +2,14 @@ import { MonographsRepositoryInMemory } from '@modules/monographs/repositories/i
 import { UpdateMonographAndVerifiedUseCase } from '@modules/monographs/useCases/updateMonographAndVerified/UpdateMonographAndVerifiedUseCase';
 
 import { CreateMonographUseCase } from '../createMonograph/CreateMonographUseCase';
-import { ShowAllMonographUseCase } from './ShowAllMonographUseCase';
+import { ShowAllMonographVerifiedUseCase } from './ShowAllMonographVerifiedUseCase';
 
 let monographsRepositoryInMemory: MonographsRepositoryInMemory;
 let createMonographUseCase: CreateMonographUseCase;
-let showAllMonographUseCase: ShowAllMonographUseCase;
+let showAllMonographVerifiedUseCase: ShowAllMonographVerifiedUseCase;
 let updateMonographAndVerifiedUseCase: UpdateMonographAndVerifiedUseCase;
 
-describe('Show All Monographs', () => {
+describe('Show All Verified Monographs', () => {
   beforeEach(() => {
     monographsRepositoryInMemory = new MonographsRepositoryInMemory();
     createMonographUseCase = new CreateMonographUseCase(
@@ -18,7 +18,7 @@ describe('Show All Monographs', () => {
     updateMonographAndVerifiedUseCase = new UpdateMonographAndVerifiedUseCase(
       monographsRepositoryInMemory,
     );
-    showAllMonographUseCase = new ShowAllMonographUseCase(
+    showAllMonographVerifiedUseCase = new ShowAllMonographVerifiedUseCase(
       monographsRepositoryInMemory,
     );
   });
@@ -59,7 +59,7 @@ describe('Show All Monographs', () => {
     await updateMonographAndVerifiedUseCase.execute(monograph01);
     await updateMonographAndVerifiedUseCase.execute(monograph02);
 
-    const result = await showAllMonographUseCase.execute();
+    const result = await showAllMonographVerifiedUseCase.execute();
     expect(result).toHaveLength(2);
   });
 });

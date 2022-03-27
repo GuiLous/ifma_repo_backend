@@ -7,7 +7,8 @@ interface IMonographsRepository {
   findByTitle(title: string): Promise<Monograph>;
   findById(id: string): Promise<Monograph>;
   update(data: Monograph): Promise<Monograph>;
-  showAll(): Promise<Monograph[]>;
+  showAllVerified(): Promise<Monograph[]>;
+  showAllNotVerified(): Promise<Monograph[]>;
 }
 
 export { IMonographsRepository };

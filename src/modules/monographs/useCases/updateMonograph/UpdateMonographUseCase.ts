@@ -17,12 +17,13 @@ interface IRequest {
   keyWords: string;
   number_pages: number;
   references: string;
+  pdf_url?: string;
   knowledge_id: string;
   course_id: string;
 }
 
 @injectable()
-class UpdateMonographAndVerifiedUseCase {
+class UpdateMonographUseCase {
   constructor(
     @inject('MonographsRepository')
     private monographsRepository: IMonographsRepository,
@@ -35,11 +36,10 @@ class UpdateMonographAndVerifiedUseCase {
       throw new AppError('Monograph does not exists!');
     }
 
-    monograph.verified = true;
     const monographUpdated = { ...monograph, ...data };
 
     return this.monographsRepository.update(monographUpdated);
   }
 }
 
-export { UpdateMonographAndVerifiedUseCase };
+export { UpdateMonographUseCase };

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import { UpdateMonographAndVerifiedUseCase } from './UpdateMonographAndVerifiedUseCase';
+import { UpdateMonographUseCase } from './UpdateMonographUseCase';
 
 class UpdateMonographAndVerifiedController {
   async handle(request: Request, response: Response): Promise<Response> {
@@ -18,15 +18,14 @@ class UpdateMonographAndVerifiedController {
       keyWords,
       number_pages,
       references,
+      pdf_url,
       knowledge_id,
       course_id,
     } = request.body;
 
-    const updateMonographAndVerifiedUseCase = container.resolve(
-      UpdateMonographAndVerifiedUseCase,
-    );
+    const updateMonographUseCase = container.resolve(UpdateMonographUseCase);
 
-    await updateMonographAndVerifiedUseCase.execute({
+    await updateMonographUseCase.execute({
       id,
       title,
       authors,
@@ -39,6 +38,7 @@ class UpdateMonographAndVerifiedController {
       keyWords,
       number_pages,
       references,
+      pdf_url,
       knowledge_id,
       course_id,
     });
