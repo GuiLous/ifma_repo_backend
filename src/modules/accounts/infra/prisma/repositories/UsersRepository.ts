@@ -1,3 +1,4 @@
+import { IAdvisorResponseDTO } from '@modules/accounts/dtos/IAdvisorResponseDTO';
 import { ICreateUserDTO } from '@modules/accounts/dtos/ICreateUserDTO';
 import { IUserResponseDTO } from '@modules/accounts/dtos/IUserResponseDTO';
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository';
@@ -70,6 +71,20 @@ class UsersRepository implements IUsersRepository {
     });
 
     return all;
+  }
+
+  async showAllAdvisors(): Promise<IAdvisorResponseDTO[]> {
+    const allAdvisors = this.repository.user.findMany({
+      where: {
+        isAdvisor: true,
+      },
+      select: {
+        id: true,
+        fullName: true,
+      },
+    });
+
+    return allAdvisors;
   }
 }
 

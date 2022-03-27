@@ -58,17 +58,23 @@ class MonographsRepository implements IMonographsRepository {
     return monograph;
   }
 
-  async update(data: Monograph): Promise<void> {
-    await this.repository.monograph.update({
+  async update(data: Monograph): Promise<Monograph> {
+    const monograph = await this.repository.monograph.update({
       data,
       where: {
         id: data.id,
       },
     });
+
+    return monograph;
   }
 
   async showAll(): Promise<Monograph[]> {
-    const all = await this.repository.monograph.findMany();
+    const all = await this.repository.monograph.findMany({
+      where: {
+        verified: true,
+      },
+    });
 
     return all;
   }

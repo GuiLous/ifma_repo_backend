@@ -7,14 +7,14 @@ import { ShowAllAdvisorUseCase } from './ShowAllAdvisorUseCase';
 let showAllAdvisorUseCase: ShowAllAdvisorUseCase;
 let usersRepositoryInMemory: UsersRepositoryInMemory;
 let createUserUseCase: CreateUserUseCase;
-let updateuserAdvisor: UpdateUserAdvisorUseCase;
+let updateUserAdvisor: UpdateUserAdvisorUseCase;
 
 describe('Show All Advisors', () => {
   beforeEach(() => {
     usersRepositoryInMemory = new UsersRepositoryInMemory();
     createUserUseCase = new CreateUserUseCase(usersRepositoryInMemory);
     showAllAdvisorUseCase = new ShowAllAdvisorUseCase(usersRepositoryInMemory);
-    updateuserAdvisor = new UpdateUserAdvisorUseCase(usersRepositoryInMemory);
+    updateUserAdvisor = new UpdateUserAdvisorUseCase(usersRepositoryInMemory);
   });
 
   it('should be able to show all advisors', async () => {
@@ -36,7 +36,8 @@ describe('Show All Advisors', () => {
       password: '123',
     });
 
-    const result = await updateuserAdvisor.execute();
+    await updateUserAdvisor.execute(user01.id);
+    await updateUserAdvisor.execute(user02.id);
 
     const result = await showAllAdvisorUseCase.execute();
 

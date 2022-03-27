@@ -1,4 +1,5 @@
 import { MonographsRepositoryInMemory } from '@modules/monographs/repositories/in-memory/MonographsRepositoryInMemory';
+import { UpdateMonographAndVerifiedUseCase } from '@modules/monographs/useCases/updateMonographAndVerified/UpdateMonographAndVerifiedUseCase';
 
 import { CreateMonographUseCase } from '../createMonograph/CreateMonographUseCase';
 import { ShowAllMonographUseCase } from './ShowAllMonographUseCase';
@@ -6,6 +7,7 @@ import { ShowAllMonographUseCase } from './ShowAllMonographUseCase';
 let monographsRepositoryInMemory: MonographsRepositoryInMemory;
 let createMonographUseCase: CreateMonographUseCase;
 let showAllMonographUseCase: ShowAllMonographUseCase;
+let updateMonographAndVerifiedUseCase: UpdateMonographAndVerifiedUseCase;
 
 describe('Show All Monographs', () => {
   beforeEach(() => {
@@ -13,13 +15,16 @@ describe('Show All Monographs', () => {
     createMonographUseCase = new CreateMonographUseCase(
       monographsRepositoryInMemory,
     );
+    updateMonographAndVerifiedUseCase = new UpdateMonographAndVerifiedUseCase(
+      monographsRepositoryInMemory,
+    );
     showAllMonographUseCase = new ShowAllMonographUseCase(
       monographsRepositoryInMemory,
     );
   });
 
-  it('should be able to show all monographs', async () => {
-    await createMonographUseCase.execute({
+  it('should be able to show all monographs verified', async () => {
+    const monograph01 = await createMonographUseCase.execute({
       title: 'title test',
       authors: 'guilherme lourenco',
       advisor: 'bruna brandao',
@@ -35,7 +40,7 @@ describe('Show All Monographs', () => {
       user_id: '7cdab18a-6659-4042-a9bd-08564d37b628',
     });
 
-    await createMonographUseCase.execute({
+    const monograph02 = await createMonographUseCase.execute({
       title: 'title test2',
       authors: 'guilherme lourenco',
       advisor: 'bruna brandao',
@@ -51,8 +56,10 @@ describe('Show All Monographs', () => {
       user_id: '7cdab18a-6659-4042-a9bd-08564d37b628',
     });
 
-    const result = await showAllMonographUseCase.execute();
+    await updateMonographAndVerifiedUseCase.execute(monograph01);
+    await updateMonographAndVerifiedUseCase.execute(monograph02);
 
+    const result = await showAllMonographUseCase.execute();
     expect(result).toHaveLength(2);
   });
 });

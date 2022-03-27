@@ -6,7 +6,7 @@ interface IMonographsRepository {
   create(data: ICreateMonographDTO): Promise<Monograph>;
   findByTitle(title: string): Promise<Monograph>;
   findById(id: string): Promise<Monograph>;
-  update(data: Monograph): Promise<void>;
+  update(data: Monograph): Promise<Monograph>;
   showAll(): Promise<Monograph[]>;
 }
 

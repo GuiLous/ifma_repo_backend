@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { IAdvisorResponseDTO } from '@modules/accounts/dtos/IAdvisorResponseDTO';
-import { UsersRepository } from '@modules/accounts/infra/repositories/UsersRepository';
+import { UsersRepository } from '@modules/accounts/infra/prisma/repositories/UsersRepository';
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository';
 
 @injectable()

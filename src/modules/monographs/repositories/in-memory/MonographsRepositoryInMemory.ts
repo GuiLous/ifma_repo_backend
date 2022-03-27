@@ -65,16 +65,22 @@ class MonographsRepositoryInMemory implements IMonographsRepository {
     return monograph;
   }
 
-  async update(data: Monograph): Promise<void> {
+  async update(data: Monograph): Promise<Monograph> {
     const monographIndex = this.monographs.findIndex(
       monograph => monograph.id === data.id,
     );
 
     this.monographs[monographIndex] = data;
+    const monograph = this.monographs[monographIndex];
+
+    return monograph;
   }
 
   async showAll(): Promise<Monograph[]> {
-    return this.monographs;
+    const all = this.monographs.filter(
+      monograph => monograph.verified === true,
+    );
+    return all;
   }
 }
 
