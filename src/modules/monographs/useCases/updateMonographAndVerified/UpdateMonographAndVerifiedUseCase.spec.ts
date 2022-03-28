@@ -35,9 +35,7 @@ describe('Update Verified Monograph', () => {
       user_id: '7cdab18a-6659-4042-a9bd-08564d37b628',
     });
 
-    const result = await updateMonographAndVerifiedUseCase.execute({
-      ...monograph,
-    });
+    const result = await updateMonographAndVerifiedUseCase.execute(monograph);
 
     expect(result).toHaveProperty('id');
     expect(result.verified).toBe(true);

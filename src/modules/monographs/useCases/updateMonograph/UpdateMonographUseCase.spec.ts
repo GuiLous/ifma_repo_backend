@@ -18,7 +18,7 @@ describe('Update Verified Monograph', () => {
     );
   });
 
-  it('should be able to update the verified attribute on monograph', async () => {
+  it('should be able to update the monograph', async () => {
     const monograph = await createMonographUseCase.execute({
       title: 'title test',
       authors: 'guilherme lourenco',

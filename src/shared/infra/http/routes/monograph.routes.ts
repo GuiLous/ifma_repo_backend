@@ -6,6 +6,7 @@ import { CreateMonographController } from '@modules/monographs/useCases/createMo
 import { ShowAllMonographNotVerifiedController } from '@modules/monographs/useCases/showAllNotVerified/ShowAllMonographNotVerifiedController';
 import { ShowAllMonographVerifiedController } from '@modules/monographs/useCases/showAllVerified/ShowAllMonographVerifiedController';
 import { ShowMonographController } from '@modules/monographs/useCases/showMonograph/ShowMonographController';
+import { UpdateMonographController } from '@modules/monographs/useCases/updateMonograph/UpdateMonographController';
 import { UpdateMonographAndVerifiedController } from '@modules/monographs/useCases/updateMonographAndVerified/UpdateMonographAndVerifiedController';
 import { UploadPdfController } from '@modules/monographs/useCases/uploadPdf/UploadPdfController';
 
@@ -25,6 +26,7 @@ const showAllMonographNotVerifiedController =
   new ShowAllMonographNotVerifiedController();
 const updateMonographAndVerifiedController =
   new UpdateMonographAndVerifiedController();
+const updateMonographController = new UpdateMonographController();
 
 monographRoutes.get('/', showAllMonographVerifiedController.handle);
 monographRoutes.get(
@@ -55,4 +57,11 @@ monographRoutes.put(
   ensureAdmin,
   updateMonographAndVerifiedController.handle,
 );
+
+monographRoutes.put(
+  '/update',
+  ensureAuthenticated,
+  updateMonographController.handle,
+);
+
 export { monographRoutes };

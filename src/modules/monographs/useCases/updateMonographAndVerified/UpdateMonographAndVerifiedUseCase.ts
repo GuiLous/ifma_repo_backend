@@ -6,19 +6,19 @@ import { AppError } from '@shared/errors/AppError';
 
 interface IRequest {
   id: string;
-  title: string;
-  authors: string;
-  advisor: string;
+  title?: string;
+  authors?: string;
+  advisor?: string;
   coAdvisors?: string;
-  published_date: Date;
-  published_local: string;
-  resumo: string;
-  abstract: string;
-  keyWords: string;
-  number_pages: number;
-  references: string;
-  knowledge_id: string;
-  course_id: string;
+  published_date?: Date;
+  published_local?: string;
+  resumo?: string;
+  abstract?: string;
+  keyWords?: string;
+  number_pages?: number;
+  references?: string;
+  knowledge_id?: string;
+  course_id?: string;
 }
 
 @injectable()

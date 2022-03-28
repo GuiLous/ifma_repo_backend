@@ -3,7 +3,7 @@ import { container } from 'tsyringe';
 
 import { UpdateMonographUseCase } from './UpdateMonographUseCase';
 
-class UpdateMonographAndVerifiedController {
+class UpdateMonographController {
   async handle(request: Request, response: Response): Promise<Response> {
     const {
       id,
@@ -47,4 +47,4 @@ class UpdateMonographAndVerifiedController {
   }
 }
 
-export { UpdateMonographAndVerifiedController };
+export { UpdateMonographController };
