@@ -30,6 +30,6 @@ export async function ensureAuthenticated(
 
     return next();
   } catch {
-    throw new AppError('Invalid Token!', 401);
+    throw new AppError('Token expired!', 401);
   }
 }

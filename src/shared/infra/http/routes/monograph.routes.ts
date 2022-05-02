@@ -28,7 +28,7 @@ const updateMonographAndVerifiedController =
   new UpdateMonographAndVerifiedController();
 const updateMonographController = new UpdateMonographController();
 
-monographRoutes.get('/', showAllMonographVerifiedController.handle);
+monographRoutes.get('/:page', showAllMonographVerifiedController.handle);
 monographRoutes.get(
   '/not-verified',
   ensureAuthenticated,

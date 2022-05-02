@@ -15,7 +15,9 @@ interface IRequest {
 
 interface IResponse {
   user: {
-    email: string;
+    isAdmin: boolean;
+    isAdvisor: boolean;
+    name: string;
   };
   token: string;
   refresh_token: string;
@@ -80,7 +82,9 @@ class AuthenticateUserUseCase {
     const tokenReturn: IResponse = {
       token,
       user: {
-        email: user.email,
+        isAdmin: user.isAdmin,
+        isAdvisor: user.isAdvisor,
+        name: user.fullName,
       },
       refresh_token,
     };
