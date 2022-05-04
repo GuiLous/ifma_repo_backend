@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
 import { ICreateMonographDTO } from '@modules/monographs/dtos/ICreateMonographDTO';
+import { IMonographSearchDTO } from '@modules/monographs/dtos/IMonographSearchDTO';
 import { IMonographsListResponseDTO } from '@modules/monographs/dtos/IMonographsListResponseDTO';
 import { IMonographsRepository } from '@modules/monographs/repositories/IMonographsRepository';
 import { Monograph, PrismaClient } from '@prisma/client';
@@ -117,6 +118,32 @@ class MonographsRepository implements IMonographsRepository {
       );
     }
     return all;
+  }
+
+  async searchFiltered(data: IMonographSearchDTO): Promise<Monograph[]> {
+    const search = await this.repository.monograph.findMany({
+      where: {
+        AND: [
+          {
+            verified: true,
+          },
+          {
+            title: {
+              contains: data.title,
+              mode: 'insensitive',
+            },
+          },
+          {
+            authors: {
+              contains: data.author,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      },
+    });
+
+    return search;
   }
 }
 

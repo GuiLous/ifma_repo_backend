@@ -3,6 +3,7 @@ import multer from 'multer';
 
 import uploadConfig from '@config/upload';
 import { CreateMonographController } from '@modules/monographs/useCases/createMonograph/CreateMonographController';
+import { SearchFilteredMonographController } from '@modules/monographs/useCases/searchFilteredMonograph/SearchFilteredMonographController';
 import { ShowAllMonographNotVerifiedController } from '@modules/monographs/useCases/showAllNotVerified/ShowAllMonographNotVerifiedController';
 import { ShowAllMonographVerifiedController } from '@modules/monographs/useCases/showAllVerified/ShowAllMonographVerifiedController';
 import { ShowMonographController } from '@modules/monographs/useCases/showMonograph/ShowMonographController';
@@ -27,8 +28,9 @@ const showAllMonographNotVerifiedController =
 const updateMonographAndVerifiedController =
   new UpdateMonographAndVerifiedController();
 const updateMonographController = new UpdateMonographController();
+const searchFilteredMonographController =
+  new SearchFilteredMonographController();
 
-monographRoutes.get('/:page', showAllMonographVerifiedController.handle);
 monographRoutes.get(
   '/not-verified',
   ensureAuthenticated,
@@ -36,7 +38,11 @@ monographRoutes.get(
   showAllMonographNotVerifiedController.handle,
 );
 
+monographRoutes.get('/search', searchFilteredMonographController.handle);
+
 monographRoutes.get('/monograph', showMonographController.handle);
+
+monographRoutes.get('/:page', showAllMonographVerifiedController.handle);
 
 monographRoutes.post(
   '/',
