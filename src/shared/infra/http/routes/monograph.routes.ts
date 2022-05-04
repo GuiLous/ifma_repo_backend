@@ -38,9 +38,9 @@ monographRoutes.get(
   showAllMonographNotVerifiedController.handle,
 );
 
-monographRoutes.get('/search', searchFilteredMonographController.handle);
-
 monographRoutes.get('/monograph', showMonographController.handle);
+
+monographRoutes.get('/search/:page', searchFilteredMonographController.handle);
 
 monographRoutes.get('/:page', showAllMonographVerifiedController.handle);
 

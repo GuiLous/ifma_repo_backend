@@ -11,7 +11,10 @@ interface IMonographsRepository {
   update(data: Monograph): Promise<Monograph>;
   showAllVerified(page?: number): Promise<IMonographsListResponseDTO>;
   showAllNotVerified(): Promise<Monograph[]>;
-  searchFiltered(data: IMonographSearchDTO): Promise<Monograph[]>;
+  searchFiltered(
+    data: IMonographSearchDTO,
+    page?: number,
+  ): Promise<IMonographsListResponseDTO>;
 }
 
 export { IMonographsRepository };

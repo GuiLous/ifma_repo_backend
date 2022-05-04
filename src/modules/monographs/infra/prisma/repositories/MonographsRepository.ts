@@ -120,30 +120,120 @@ class MonographsRepository implements IMonographsRepository {
     return all;
   }
 
-  async searchFiltered(data: IMonographSearchDTO): Promise<Monograph[]> {
-    const search = await this.repository.monograph.findMany({
-      where: {
-        AND: [
-          {
-            verified: true,
-          },
-          {
-            title: {
-              contains: data.title,
-              mode: 'insensitive',
+  async searchFiltered(
+    data: IMonographSearchDTO,
+    page = 1,
+  ): Promise<IMonographsListResponseDTO> {
+    const result = await this.repository.$transaction([
+      this.repository.monograph.count({
+        where: {
+          AND: [
+            {
+              verified: true,
             },
-          },
-          {
-            authors: {
-              contains: data.author,
-              mode: 'insensitive',
+            {
+              title: {
+                contains: data.title,
+                mode: 'insensitive',
+              },
             },
-          },
-        ],
-      },
-    });
+            {
+              authors: {
+                contains: data.author,
+                mode: 'insensitive',
+              },
+            },
+            {
+              advisor: {
+                contains: data.advisor,
+                mode: 'insensitive',
+              },
+            },
+            {
+              keyWords: {
+                contains: data.keywords,
+                mode: 'insensitive',
+              },
+            },
+            {
+              course_id: {
+                contains: data.course_id,
+                mode: 'insensitive',
+              },
+            },
+            {
+              knowledge_id: {
+                contains: data.knowledge_id,
+                mode: 'insensitive',
+              },
+            },
+          ],
+        },
+      }),
 
-    return search;
+      this.repository.monograph.findMany({
+        where: {
+          AND: [
+            {
+              verified: true,
+            },
+            {
+              title: {
+                contains: data.title,
+                mode: 'insensitive',
+              },
+            },
+            {
+              authors: {
+                contains: data.author,
+                mode: 'insensitive',
+              },
+            },
+            {
+              advisor: {
+                contains: data.advisor,
+                mode: 'insensitive',
+              },
+            },
+            {
+              keyWords: {
+                contains: data.keywords,
+                mode: 'insensitive',
+              },
+            },
+            {
+              course_id: {
+                contains: data.course_id,
+                mode: 'insensitive',
+              },
+            },
+            {
+              knowledge_id: {
+                contains: data.knowledge_id,
+                mode: 'insensitive',
+              },
+            },
+          ],
+        },
+        skip: (page - 1) * 10,
+        take: 10,
+        orderBy: {
+          published_date: 'desc',
+        },
+      }),
+    ]);
+
+    const [total_count, monographs] = result;
+
+    if (monographs.length > 0) {
+      monographs.map(
+        monograph => (monograph.pdf_url = updatePdfUrl(monograph.pdf_url)),
+      );
+    }
+    return {
+      total_count,
+      monographs,
+    };
   }
 }
 
