@@ -15,6 +15,7 @@ interface IMonographsRepository {
     data: IMonographSearchDTO,
     page?: number,
   ): Promise<IMonographsListResponseDTO>;
+  showMonograph(id: string): Promise<Monograph>;
 }
 
 export { IMonographsRepository };

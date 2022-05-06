@@ -7,6 +7,7 @@ interface ICreateMonographDTO {
   published_local: string;
   resumo: string;
   abstract: string;
+  palavras_chave: string;
   keyWords: string;
   number_pages: number;
   references: string;

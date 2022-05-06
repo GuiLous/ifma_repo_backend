@@ -150,8 +150,8 @@ class MonographsRepository implements IMonographsRepository {
               },
             },
             {
-              keyWords: {
-                contains: data.keywords,
+              palavras_chave: {
+                contains: data.palavras_chave,
                 mode: 'insensitive',
               },
             },
@@ -196,8 +196,8 @@ class MonographsRepository implements IMonographsRepository {
               },
             },
             {
-              keyWords: {
-                contains: data.keywords,
+              palavras_chave: {
+                contains: data.palavras_chave,
                 mode: 'insensitive',
               },
             },
@@ -234,6 +234,31 @@ class MonographsRepository implements IMonographsRepository {
       total_count,
       monographs,
     };
+  }
+
+  async showMonograph(id: string): Promise<Monograph> {
+    const monograph = await this.repository.monograph.findFirst({
+      where: {
+        id,
+        verified: true,
+      },
+      include: {
+        knowledge_area: {
+          select: {
+            name: true,
+          },
+        },
+        course: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (monograph) monograph.pdf_url = updatePdfUrl(monograph.pdf_url);
+
+    return monograph;
   }
 }
 

@@ -48,6 +48,7 @@ model Monograph {
   published_local String
   resumo          String
   abstract        String
+  palavras_chave  String?
   keyWords        String
   number_pages    Int
   references      String

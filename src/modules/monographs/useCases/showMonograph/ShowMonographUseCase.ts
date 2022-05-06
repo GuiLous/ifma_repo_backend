@@ -12,10 +12,10 @@ class ShowMonographUseCase {
   ) {}
 
   async execute(id: string): Promise<Monograph> {
-    const monograph = await this.monographsRepository.findById(id);
+    const monograph = await this.monographsRepository.showMonograph(id);
 
     if (!monograph) {
-      throw new AppError('Monograph does not exists!');
+      throw new AppError('Monograph does not found!');
     }
 
     return monograph;
