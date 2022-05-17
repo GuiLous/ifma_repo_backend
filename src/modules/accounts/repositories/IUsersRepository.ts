@@ -11,6 +11,7 @@ interface IUsersRepository {
   updateUser(userUpdated: User): Promise<User>;
   showAll(): Promise<IUserResponseDTO[]>;
   showAllAdvisors(): Promise<IAdvisorResponseDTO[]>;
+  delete(email: string): Promise<void>;
 }
 
 export { IUsersRepository };

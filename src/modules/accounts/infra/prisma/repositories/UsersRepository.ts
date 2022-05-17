@@ -86,6 +86,14 @@ class UsersRepository implements IUsersRepository {
 
     return allAdvisors;
   }
+
+  async delete(email: string): Promise<void> {
+    await this.repository.user.delete({
+      where: {
+        email,
+      },
+    });
+  }
 }
 
 export { UsersRepository };
