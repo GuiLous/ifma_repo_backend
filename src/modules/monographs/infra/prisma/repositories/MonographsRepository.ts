@@ -260,6 +260,38 @@ class MonographsRepository implements IMonographsRepository {
 
     return monograph;
   }
+
+  async showAllVerifiedByUser(
+    user_id: string,
+    page = 1,
+  ): Promise<IMonographsListResponseDTO> {
+    const result = await this.repository.$transaction([
+      this.repository.monograph.count({
+        where: {
+          verified: true,
+          user_id,
+        },
+      }),
+      this.repository.monograph.findMany({
+        where: {
+          verified: true,
+          user_id,
+        },
+        skip: (page - 1) * 10,
+        take: 10,
+        orderBy: {
+          published_date: 'desc',
+        },
+      }),
+    ]);
+
+    const [total_count, monographs] = result;
+
+    return {
+      total_count,
+      monographs,
+    };
+  }
 }
 
 export { MonographsRepository };
