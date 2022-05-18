@@ -8,8 +8,15 @@ import { SearchFilteredMonographUseCase } from './SearchFilteredMonographUseCase
 class SearchFilteredMonographController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { page } = request.params;
-    const { title, author, advisor, palavras_chave, course_id, knowledge_id } =
-      request.query as IMonographSearchDTO;
+    const {
+      title,
+      author,
+      advisor,
+      palavras_chave,
+      course_id,
+      knowledge_id,
+      user_email,
+    } = request.query as IMonographSearchDTO;
 
     const searchFilteredMonographUseCase = container.resolve(
       SearchFilteredMonographUseCase,
@@ -23,6 +30,7 @@ class SearchFilteredMonographController {
         palavras_chave,
         course_id,
         knowledge_id,
+        user_email,
       },
       Number(page),
     );

@@ -167,6 +167,12 @@ class MonographsRepository implements IMonographsRepository {
                 mode: 'insensitive',
               },
             },
+            {
+              user_id: {
+                contains: data.user_id,
+                mode: 'insensitive',
+              },
+            },
           ],
         },
       }),
@@ -210,6 +216,12 @@ class MonographsRepository implements IMonographsRepository {
             {
               knowledge_id: {
                 contains: data.knowledge_id,
+                mode: 'insensitive',
+              },
+            },
+            {
+              user_id: {
+                contains: data.user_id,
                 mode: 'insensitive',
               },
             },
@@ -261,20 +273,20 @@ class MonographsRepository implements IMonographsRepository {
     return monograph;
   }
 
-  async showAllVerifiedByUser(
+  async showAllNotVerifiedByUser(
     user_id: string,
     page = 1,
   ): Promise<IMonographsListResponseDTO> {
     const result = await this.repository.$transaction([
       this.repository.monograph.count({
         where: {
-          verified: true,
+          verified: false,
           user_id,
         },
       }),
       this.repository.monograph.findMany({
         where: {
-          verified: true,
+          verified: false,
           user_id,
         },
         skip: (page - 1) * 10,
@@ -287,6 +299,11 @@ class MonographsRepository implements IMonographsRepository {
 
     const [total_count, monographs] = result;
 
+    if (monographs.length > 0) {
+      monographs.map(
+        monograph => (monograph.pdf_url = updatePdfUrl(monograph.pdf_url)),
+      );
+    }
     return {
       total_count,
       monographs,

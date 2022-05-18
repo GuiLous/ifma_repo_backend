@@ -2,41 +2,37 @@ import { inject, injectable } from 'tsyringe';
 
 import { UsersRepository } from '@modules/accounts/infra/prisma/repositories/UsersRepository';
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository';
-import { IMonographSearchDTO } from '@modules/monographs/dtos/IMonographSearchDTO';
 import { IMonographsListResponseDTO } from '@modules/monographs/dtos/IMonographsListResponseDTO';
 import { MonographsRepository } from '@modules/monographs/infra/prisma/repositories/MonographsRepository';
 import { IMonographsRepository } from '@modules/monographs/repositories/IMonographsRepository';
 import { AppError } from '@shared/errors/AppError';
 
 @injectable()
-class SearchFilteredMonographUseCase {
+class ShowAllMonographNotVerifiedByUserUseCase {
   constructor(
     @inject(MonographsRepository)
     private monographsRepository: IMonographsRepository,
     @inject(UsersRepository)
     private usersRepository: IUsersRepository,
   ) {}
+
   async execute(
-    data: IMonographSearchDTO,
+    user_email: string,
     page: number,
   ): Promise<IMonographsListResponseDTO> {
-    const user = await this.usersRepository.findByEmail(data.user_email);
+    const user = await this.usersRepository.findByEmail(user_email);
 
     if (!user) {
       throw new AppError('User does not exists!');
     }
 
-    const newData = {
-      ...data,
-      user_id: user.id,
-    };
-    const result = await this.monographsRepository.searchFiltered(
-      newData,
+    const all = await this.monographsRepository.showAllNotVerifiedByUser(
+      user.id,
       page,
     );
 
-    return result;
+    return all;
   }
 }
 
-export { SearchFilteredMonographUseCase };
+export { ShowAllMonographNotVerifiedByUserUseCase };

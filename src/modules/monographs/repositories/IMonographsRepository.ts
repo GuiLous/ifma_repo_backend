@@ -10,16 +10,16 @@ interface IMonographsRepository {
   findById(id: string): Promise<Monograph>;
   update(data: Monograph): Promise<Monograph>;
   showAllVerified(page?: number): Promise<IMonographsListResponseDTO>;
-  showAllVerifiedByUser(
-    user_id: string,
-    page?: number,
-  ): Promise<IMonographsListResponseDTO>;
   showAllNotVerified(): Promise<Monograph[]>;
   searchFiltered(
     data: IMonographSearchDTO,
     page?: number,
   ): Promise<IMonographsListResponseDTO>;
   showMonograph(id: string): Promise<Monograph>;
+  showAllNotVerifiedByUser(
+    user_id: string,
+    page?: number,
+  ): Promise<IMonographsListResponseDTO>;
 }
 
 export { IMonographsRepository };

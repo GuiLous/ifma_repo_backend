@@ -5,6 +5,7 @@ import uploadConfig from '@config/upload';
 import { CreateMonographController } from '@modules/monographs/useCases/createMonograph/CreateMonographController';
 import { SearchFilteredMonographController } from '@modules/monographs/useCases/searchFilteredMonograph/SearchFilteredMonographController';
 import { ShowAllMonographNotVerifiedController } from '@modules/monographs/useCases/showAllNotVerified/ShowAllMonographNotVerifiedController';
+import { ShowAllMonographNotVerifiedByUserController } from '@modules/monographs/useCases/showAllNotVerifiedByUser /ShowAllMonographNotVerifiedByUserController';
 import { ShowAllMonographVerifiedController } from '@modules/monographs/useCases/showAllVerified/ShowAllMonographVerifiedController';
 import { ShowMonographController } from '@modules/monographs/useCases/showMonograph/ShowMonographController';
 import { UpdateMonographController } from '@modules/monographs/useCases/updateMonograph/UpdateMonographController';
@@ -30,6 +31,10 @@ const updateMonographAndVerifiedController =
 const updateMonographController = new UpdateMonographController();
 const searchFilteredMonographController =
   new SearchFilteredMonographController();
+const showAllMonographNotVerifiedByUserController =
+  new ShowAllMonographNotVerifiedByUserController();
+
+monographRoutes.get('/monograph', showMonographController.handle);
 
 monographRoutes.get(
   '/not-verified',
@@ -38,7 +43,11 @@ monographRoutes.get(
   showAllMonographNotVerifiedController.handle,
 );
 
-monographRoutes.get('/monograph', showMonographController.handle);
+monographRoutes.get(
+  '/not-verified/user/:page',
+  ensureAuthenticated,
+  showAllMonographNotVerifiedByUserController.handle,
+);
 
 monographRoutes.get('/search/:page', searchFilteredMonographController.handle);
 
