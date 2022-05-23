@@ -5,11 +5,13 @@ import { ShowAllMonographNotVerifiedUseCase } from './ShowAllMonographNotVerifie
 
 class ShowAllMonographNotVerifiedController {
   async handle(request: Request, response: Response): Promise<Response> {
+    const { page } = request.params;
+
     const showAllMonographNotVerifiedUseCase = container.resolve(
       ShowAllMonographNotVerifiedUseCase,
     );
 
-    const all = await showAllMonographNotVerifiedUseCase.execute();
+    const all = await showAllMonographNotVerifiedUseCase.execute(Number(page));
 
     return response.status(200).json(all);
   }

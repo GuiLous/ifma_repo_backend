@@ -5,11 +5,11 @@ import { ShowMonographUseCase } from './ShowMonographUseCase';
 
 class ShowMonographController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { id } = request.body;
+    const { id } = request.params;
 
     const showMonographUseCase = container.resolve(ShowMonographUseCase);
 
-    const monograph = await showMonographUseCase.execute(id);
+    const monograph = await showMonographUseCase.execute(String(id));
 
     return response.status(200).json(monograph);
   }

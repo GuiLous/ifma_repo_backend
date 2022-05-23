@@ -1,7 +1,7 @@
 import { MonographsRepositoryInMemory } from '@modules/monographs/repositories/in-memory/MonographsRepositoryInMemory';
 
 import { CreateMonographUseCase } from '../createMonograph/CreateMonographUseCase';
-import { UpdateMonographAndVerifiedUseCase } from './UpdateMonographAndVerifiedUseCase';
+import { UpdateMonographAndVerifiedUseCase } from './UpdateMonographVerifiedUseCase';
 
 let monographsRepositoryInMemory: MonographsRepositoryInMemory;
 let createMonographUseCase: CreateMonographUseCase;

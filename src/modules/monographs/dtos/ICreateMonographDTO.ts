@@ -1,16 +1,15 @@
 interface ICreateMonographDTO {
   title: string;
   authors: string;
+  authors_emails?: string;
   advisor: string;
-  coAdvisors?: string;
+  advisor_lattes?: string;
   published_date: Date;
   published_local: string;
   resumo: string;
-  abstract: string;
   palavras_chave: string;
   keyWords: string;
   number_pages: number;
-  references: string;
   pdf_url?: string;
   knowledge_id: string;
   course_id: string;

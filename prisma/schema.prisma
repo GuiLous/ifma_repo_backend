@@ -39,25 +39,25 @@ model Users_Token {
 }
 
 model Monograph {
-  id              String   @id @default(uuid())
-  title           String
-  authors         String
-  advisor         String
-  coAdvisors      String?
-  published_date  DateTime
-  published_local String
-  resumo          String
-  abstract        String
-  palavras_chave  String?
-  keyWords        String
-  number_pages    Int
-  references      String
-  pdf_url         String?
-  knowledge_id    String
-  course_id       String
-  user_id         String
-  verified        Boolean  @default(false)
-  created_at      DateTime @default(now())
+  id                     String   @id @default(uuid())
+  title                  String
+  authors                String
+  authors_emails         String?
+  advisor                String
+  advisor_lattes         String?
+  published_date         DateTime
+  published_local        String
+  resumo                 String
+  palavras_chave         String
+  keyWords               String
+  number_pages           Int
+  pdf_url                String?
+  verified               Boolean  @default(false)
+  comments_if_not_accept String?
+  knowledge_id           String
+  course_id              String
+  user_id                String
+  created_at             DateTime @default(now())
 
   knowledge_area Knowledge_Area @relation(fields: [knowledge_id], references: [id], onDelete: SetNull, onUpdate: SetNull)
   course         Course         @relation(fields: [course_id], references: [id], onDelete: SetNull, onUpdate: SetNull)

@@ -20,6 +20,10 @@ class ShowAllMonographNotVerifiedByUserUseCase {
     user_email: string,
     page: number,
   ): Promise<IMonographsListResponseDTO> {
+    if (!user_email) {
+      throw new AppError('Email invalid!');
+    }
+
     const user = await this.usersRepository.findByEmail(user_email);
 
     if (!user) {

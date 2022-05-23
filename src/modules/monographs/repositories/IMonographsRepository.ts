@@ -10,13 +10,18 @@ interface IMonographsRepository {
   findById(id: string): Promise<Monograph>;
   update(data: Monograph): Promise<Monograph>;
   showAllVerified(page?: number): Promise<IMonographsListResponseDTO>;
-  showAllNotVerified(): Promise<Monograph[]>;
+  showAllNotVerified(page?: number): Promise<IMonographsListResponseDTO>;
   searchFiltered(
     data: IMonographSearchDTO,
     page?: number,
   ): Promise<IMonographsListResponseDTO>;
   showMonograph(id: string): Promise<Monograph>;
+  showMonographNotVerified(id: string): Promise<Monograph>;
   showAllNotVerifiedByUser(
+    user_id: string,
+    page?: number,
+  ): Promise<IMonographsListResponseDTO>;
+  showAllRecusedVerification(
     user_id: string,
     page?: number,
   ): Promise<IMonographsListResponseDTO>;

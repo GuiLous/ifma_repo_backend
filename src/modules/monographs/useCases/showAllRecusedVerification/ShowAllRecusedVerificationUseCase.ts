@@ -2,15 +2,13 @@ import { inject, injectable } from 'tsyringe';
 
 import { UsersRepository } from '@modules/accounts/infra/prisma/repositories/UsersRepository';
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository';
-import { IMonographSearchDTO } from '@modules/monographs/dtos/IMonographSearchDTO';
 import { IMonographsListResponseDTO } from '@modules/monographs/dtos/IMonographsListResponseDTO';
 import { MonographsRepository } from '@modules/monographs/infra/prisma/repositories/MonographsRepository';
 import { IMonographsRepository } from '@modules/monographs/repositories/IMonographsRepository';
-import { User } from '@prisma/client';
 import { AppError } from '@shared/errors/AppError';
 
 @injectable()
-class SearchFilteredMonographUseCase {
+class ShowAllRecusedVerificationUseCase {
   constructor(
     @inject(MonographsRepository)
     private monographsRepository: IMonographsRepository,
@@ -18,26 +16,21 @@ class SearchFilteredMonographUseCase {
     private usersRepository: IUsersRepository,
   ) {}
   async execute(
-    data: IMonographSearchDTO,
+    user_email: string,
     page: number,
   ): Promise<IMonographsListResponseDTO> {
-    let user: User;
-
-    if (data.user_email) {
-      user = await this.usersRepository.findByEmail(data.user_email);
-
-      if (!user) {
-        throw new AppError('User does not exists!');
-      }
+    if (!user_email) {
+      throw new AppError('Email invalid!');
     }
 
-    const newData = {
-      ...data,
-      user_id: user?.id,
-    };
+    const user = await this.usersRepository.findByEmail(user_email);
 
-    const result = await this.monographsRepository.searchFiltered(
-      newData,
+    if (!user) {
+      throw new AppError('User does not exists!');
+    }
+
+    const result = await this.monographsRepository.showAllRecusedVerification(
+      user.id,
       page,
     );
 
@@ -45,4 +38,4 @@ class SearchFilteredMonographUseCase {
   }
 }
 
-export { SearchFilteredMonographUseCase };
+export { ShowAllRecusedVerificationUseCase };

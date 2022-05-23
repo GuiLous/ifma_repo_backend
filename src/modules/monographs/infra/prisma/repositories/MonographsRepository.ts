@@ -105,19 +105,36 @@ class MonographsRepository implements IMonographsRepository {
     };
   }
 
-  async showAllNotVerified(): Promise<Monograph[]> {
-    const all = await this.repository.monograph.findMany({
-      where: {
-        verified: false,
-      },
-    });
+  async showAllNotVerified(page = 1): Promise<IMonographsListResponseDTO> {
+    const result = await this.repository.$transaction([
+      this.repository.monograph.count({
+        where: {
+          verified: false,
+        },
+      }),
+      this.repository.monograph.findMany({
+        where: {
+          verified: false,
+        },
+        skip: (page - 1) * 10,
+        take: 10,
+        orderBy: {
+          published_date: 'desc',
+        },
+      }),
+    ]);
 
-    if (all.length > 0) {
-      all.map(
+    const [total_count, monographs] = result;
+
+    if (monographs.length > 0) {
+      monographs.map(
         monograph => (monograph.pdf_url = updatePdfUrl(monograph.pdf_url)),
       );
     }
-    return all;
+    return {
+      total_count,
+      monographs,
+    };
   }
 
   async searchFiltered(
@@ -273,6 +290,31 @@ class MonographsRepository implements IMonographsRepository {
     return monograph;
   }
 
+  async showMonographNotVerified(id: string): Promise<Monograph> {
+    const monograph = await this.repository.monograph.findFirst({
+      where: {
+        id,
+        verified: false,
+      },
+      include: {
+        knowledge_area: {
+          select: {
+            name: true,
+          },
+        },
+        course: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (monograph) monograph.pdf_url = updatePdfUrl(monograph.pdf_url);
+
+    return monograph;
+  }
+
   async showAllNotVerifiedByUser(
     user_id: string,
     page = 1,
@@ -288,6 +330,49 @@ class MonographsRepository implements IMonographsRepository {
         where: {
           verified: false,
           user_id,
+        },
+        skip: (page - 1) * 10,
+        take: 10,
+        orderBy: {
+          published_date: 'desc',
+        },
+      }),
+    ]);
+
+    const [total_count, monographs] = result;
+
+    if (monographs.length > 0) {
+      monographs.map(
+        monograph => (monograph.pdf_url = updatePdfUrl(monograph.pdf_url)),
+      );
+    }
+    return {
+      total_count,
+      monographs,
+    };
+  }
+
+  async showAllRecusedVerification(
+    user_id: string,
+    page = 1,
+  ): Promise<IMonographsListResponseDTO> {
+    const result = await this.repository.$transaction([
+      this.repository.monograph.count({
+        where: {
+          verified: false,
+          user_id,
+          comments_if_not_accept: {
+            not: null,
+          },
+        },
+      }),
+      this.repository.monograph.findMany({
+        where: {
+          verified: false,
+          user_id,
+          comments_if_not_accept: {
+            not: null,
+          },
         },
         skip: (page - 1) * 10,
         take: 10,

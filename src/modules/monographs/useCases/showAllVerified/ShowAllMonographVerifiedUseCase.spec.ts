@@ -1,5 +1,5 @@
 import { MonographsRepositoryInMemory } from '@modules/monographs/repositories/in-memory/MonographsRepositoryInMemory';
-import { UpdateMonographAndVerifiedUseCase } from '@modules/monographs/useCases/updateMonographAndVerified/UpdateMonographAndVerifiedUseCase';
+import { UpdateMonographAndVerifiedUseCase } from '@modules/monographs/useCases/updateMonographVerified/UpdateMonographAndVerifiedUseCase';
 
 import { CreateMonographUseCase } from '../createMonograph/CreateMonographUseCase';
 import { ShowAllMonographVerifiedUseCase } from './ShowAllMonographVerifiedUseCase';
