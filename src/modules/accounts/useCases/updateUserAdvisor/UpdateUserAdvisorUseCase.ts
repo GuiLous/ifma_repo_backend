@@ -18,7 +18,6 @@ class UpdateUserAdvisorUseCase {
       throw new AppError('User does not exists!');
     }
 
-    user.isAdmin = true;
     user.isAdvisor = true;
 
     const userUpdated = await this.usersRepository.updateUser(user);
