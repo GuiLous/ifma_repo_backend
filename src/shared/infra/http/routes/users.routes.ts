@@ -22,19 +22,19 @@ const updateUserController = new UpdateUserController();
 const deleteUserController = new DeleteUserController();
 
 usersRoutes.get(
-  '/',
-  ensureAuthenticated,
-  ensureAdmin,
-  showAllUserController.handle,
-);
-
-usersRoutes.get(
   '/advisors',
   ensureAuthenticated,
   showAllAdvisorController.handle,
 );
 
 usersRoutes.get('/profile', ensureAuthenticated, profileUserController.handle);
+
+usersRoutes.get(
+  '/:page',
+  ensureAuthenticated,
+  ensureAdmin,
+  showAllUserController.handle,
+);
 
 usersRoutes.post('/', createUserController.handle);
 

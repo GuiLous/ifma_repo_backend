@@ -10,8 +10,8 @@ class ShowAllUserUseCase {
     @inject(UsersRepository)
     private usersRepository: IUsersRepository,
   ) {}
-  async execute(): Promise<IUserResponseDTO[]> {
-    const all = await this.usersRepository.showAll();
+  async execute(page: number): Promise<IUserResponseDTO> {
+    const all = await this.usersRepository.showAll(page);
 
     return all;
   }

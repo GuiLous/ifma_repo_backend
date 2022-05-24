@@ -9,7 +9,7 @@ interface IUsersRepository {
   findByEmail(email: string): Promise<User>;
   findById(id: string): Promise<User>;
   updateUser(userUpdated: User): Promise<User>;
-  showAll(): Promise<IUserResponseDTO[]>;
+  showAll(page?: number): Promise<IUserResponseDTO>;
   showAllAdvisors(): Promise<IAdvisorResponseDTO[]>;
   delete(email: string): Promise<void>;
 }

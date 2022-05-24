@@ -58,19 +58,32 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
-  async showAll(): Promise<IUserResponseDTO[]> {
-    const all = await this.repository.user.findMany({
-      select: {
-        id: true,
-        email: true,
-        fullName: true,
-        isAdmin: true,
-        isAdvisor: true,
-        created_at: true,
-      },
-    });
+  async showAll(page = 1): Promise<IUserResponseDTO> {
+    const result = await this.repository.$transaction([
+      this.repository.user.count({}),
+      this.repository.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          fullName: true,
+          isAdmin: true,
+          isAdvisor: true,
+          created_at: true,
+        },
+        skip: (page - 1) * 10,
+        take: 10,
+        orderBy: {
+          fullName: 'asc',
+        },
+      }),
+    ]);
 
-    return all;
+    const [total_count, users] = result;
+
+    return {
+      total_count,
+      users,
+    };
   }
 
   async showAllAdvisors(): Promise<IAdvisorResponseDTO[]> {
