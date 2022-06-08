@@ -8,16 +8,18 @@ import { Monograph, PrismaClient } from '@prisma/client';
 import { prisma } from '@shared/infra/database/prismaClient';
 
 function updatePdfUrl(pdf_url: string): string {
-  switch (process.env.disk) {
-    case 'local':
-      return `${process.env.APP_API_URL}/pdf/${pdf_url}`;
-    case 's3':
-      return `${process.env.AWS_BUCKET_URL}/pdf/${pdf_url}`;
-    default:
-      break;
+  if (pdf_url !== null) {
+    switch (process.env.disk) {
+      case 'local':
+        return `${process.env.APP_API_URL}/pdf/${pdf_url}`;
+      case 's3':
+        return `${process.env.AWS_BUCKET_URL}/pdf/${pdf_url}`;
+      default:
+        break;
+    }
   }
 
-  return pdf_url;
+  return 'Nenhum arquivo anexado!';
 }
 
 class MonographsRepository implements IMonographsRepository {
@@ -45,8 +47,6 @@ class MonographsRepository implements IMonographsRepository {
       },
     });
 
-    if (monograph) monograph.pdf_url = updatePdfUrl(monograph.pdf_url);
-
     return monograph;
   }
 
@@ -56,8 +56,6 @@ class MonographsRepository implements IMonographsRepository {
         id,
       },
     });
-
-    if (monograph) monograph.pdf_url = updatePdfUrl(monograph.pdf_url);
 
     return monograph;
   }
@@ -110,11 +108,13 @@ class MonographsRepository implements IMonographsRepository {
       this.repository.monograph.count({
         where: {
           verified: false,
+          comments_if_not_accept: null,
         },
       }),
       this.repository.monograph.findMany({
         where: {
           verified: false,
+          comments_if_not_accept: null,
         },
         skip: (page - 1) * 10,
         take: 10,
@@ -353,7 +353,7 @@ class MonographsRepository implements IMonographsRepository {
   }
 
   async showAllRecusedVerification(
-    user_id: string,
+    user_id?: string,
     page = 1,
   ): Promise<IMonographsListResponseDTO> {
     const result = await this.repository.$transaction([

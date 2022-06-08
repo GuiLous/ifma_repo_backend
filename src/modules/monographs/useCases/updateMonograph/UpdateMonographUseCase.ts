@@ -15,7 +15,6 @@ interface IRequest {
   published_local: string;
   resumo: string;
   palavras_chave: string;
-  keyWords: string;
   number_pages: number;
   pdf_url?: string;
   knowledge_id: string;

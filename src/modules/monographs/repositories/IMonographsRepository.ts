@@ -22,7 +22,7 @@ interface IMonographsRepository {
     page?: number,
   ): Promise<IMonographsListResponseDTO>;
   showAllRecusedVerification(
-    user_id: string,
+    user_id?: string,
     page?: number,
   ): Promise<IMonographsListResponseDTO>;
 }

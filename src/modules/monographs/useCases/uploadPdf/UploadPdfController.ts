@@ -9,6 +9,7 @@ class UploadPdfController {
     // const monograph_id = '9808de17-b8d7-4f14-b582-99ed819779ad';
 
     const pdf_file = request.file.filename;
+
     const uploadPdfUseCase = container.resolve(UploadPdfUseCase);
 
     await uploadPdfUseCase.execute({

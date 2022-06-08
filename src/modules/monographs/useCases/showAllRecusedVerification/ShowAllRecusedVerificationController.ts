@@ -13,8 +13,8 @@ class ShowAllRecusedVerificationController {
     );
 
     const all = await showAllRecusedVerificationUseCase.execute(
-      String(user_email),
       Number(page),
+      String(user_email),
     );
 
     return response.status(200).json(all);

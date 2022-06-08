@@ -5,6 +5,7 @@ import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepositor
 import { IMonographsListResponseDTO } from '@modules/monographs/dtos/IMonographsListResponseDTO';
 import { MonographsRepository } from '@modules/monographs/infra/prisma/repositories/MonographsRepository';
 import { IMonographsRepository } from '@modules/monographs/repositories/IMonographsRepository';
+import { User } from '@prisma/client';
 import { AppError } from '@shared/errors/AppError';
 
 @injectable()
@@ -16,21 +17,21 @@ class ShowAllRecusedVerificationUseCase {
     private usersRepository: IUsersRepository,
   ) {}
   async execute(
-    user_email: string,
     page: number,
+    user_email?: string,
   ): Promise<IMonographsListResponseDTO> {
-    if (!user_email) {
-      throw new AppError('Email invalid!');
-    }
+    let user: User;
 
-    const user = await this.usersRepository.findByEmail(user_email);
+    if (user_email !== 'undefined') {
+      user = await this.usersRepository.findByEmail(user_email);
 
-    if (!user) {
-      throw new AppError('User does not exists!');
+      if (!user) {
+        throw new AppError('User does not exists!');
+      }
     }
 
     const result = await this.monographsRepository.showAllRecusedVerification(
-      user.id,
+      user?.id,
       page,
     );
 

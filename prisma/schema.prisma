@@ -42,14 +42,13 @@ model Monograph {
   id                     String   @id @default(uuid())
   title                  String
   authors                String
-  authors_emails         String?
+  authors_emails         String
   advisor                String
   advisor_lattes         String?
   published_date         DateTime
   published_local        String
   resumo                 String
   palavras_chave         String
-  keyWords               String
   number_pages           Int
   pdf_url                String?
   verified               Boolean  @default(false)

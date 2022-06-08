@@ -11,6 +11,7 @@ import { ShowAllMonographVerifiedController } from '@modules/monographs/useCases
 import { ShowMonographController } from '@modules/monographs/useCases/showMonograph/ShowMonographController';
 import { ShowMonographNotVerifiedController } from '@modules/monographs/useCases/showMonographNotVerified/ShowMonographNotVerifiedController';
 import { UpdateMonographController } from '@modules/monographs/useCases/updateMonograph/UpdateMonographController';
+import { UpdateMonographCommentsController } from '@modules/monographs/useCases/updateMonographComments/UpdateMonographCommentsController';
 import { UpdateMonographVerifiedController } from '@modules/monographs/useCases/updateMonographVerified/UpdateMonographVerifiedController';
 import { UploadPdfController } from '@modules/monographs/useCases/uploadPdf/UploadPdfController';
 
@@ -39,6 +40,8 @@ const showMonographNotVerifiedController =
   new ShowMonographNotVerifiedController();
 const showAllRecusedVerificationController =
   new ShowAllRecusedVerificationController();
+const updateMonographCommentsController =
+  new UpdateMonographCommentsController();
 
 monographRoutes.get('/monograph/:id', showMonographController.handle);
 
@@ -95,6 +98,12 @@ monographRoutes.put(
   '/update',
   ensureAuthenticated,
   updateMonographController.handle,
+);
+
+monographRoutes.put(
+  '/update-comments',
+  ensureAuthenticated,
+  updateMonographCommentsController.handle,
 );
 
 export { monographRoutes };
