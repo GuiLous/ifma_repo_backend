@@ -323,12 +323,14 @@ class MonographsRepository implements IMonographsRepository {
       this.repository.monograph.count({
         where: {
           verified: false,
+          comments_if_not_accept: null,
           user_id,
         },
       }),
       this.repository.monograph.findMany({
         where: {
           verified: false,
+          comments_if_not_accept: null,
           user_id,
         },
         skip: (page - 1) * 10,
