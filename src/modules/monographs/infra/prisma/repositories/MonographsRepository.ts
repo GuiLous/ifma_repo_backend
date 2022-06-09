@@ -274,11 +274,13 @@ class MonographsRepository implements IMonographsRepository {
       include: {
         knowledge_area: {
           select: {
+            id: true,
             name: true,
           },
         },
         course: {
           select: {
+            id: true,
             name: true,
           },
         },
@@ -299,11 +301,13 @@ class MonographsRepository implements IMonographsRepository {
       include: {
         knowledge_area: {
           select: {
+            id: true,
             name: true,
           },
         },
         course: {
           select: {
+            id: true,
             name: true,
           },
         },
