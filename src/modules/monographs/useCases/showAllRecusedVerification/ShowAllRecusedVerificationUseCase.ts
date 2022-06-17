@@ -23,7 +23,7 @@ class ShowAllRecusedVerificationUseCase {
     let user: User;
 
     if (user_email !== 'undefined') {
-      user = await this.usersRepository.findByEmail(user_email);
+      user = await this.usersRepository.findByConfirmedEmail(user_email);
 
       if (!user) {
         throw new AppError('User does not exists!');

@@ -2,7 +2,7 @@ import { instanceToInstance } from 'class-transformer';
 
 import { User } from '@prisma/client';
 
-import { IUserResponseDTO } from '../dtos/IUserResponseDTO';
+import { IUsers } from '../dtos/IUserResponseDTO';
 
 class UserMap {
   static toDTO({
@@ -12,7 +12,7 @@ class UserMap {
     isAdmin,
     isAdvisor,
     created_at,
-  }: User): IUserResponseDTO {
+  }: User): IUsers {
     const user = instanceToInstance({
       id,
       email,

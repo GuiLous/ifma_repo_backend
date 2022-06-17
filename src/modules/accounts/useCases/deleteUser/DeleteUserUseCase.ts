@@ -13,7 +13,7 @@ class DeleteUserUseCase {
     private usersRepository: IUsersRepository,
   ) {}
   async execute(email: string): Promise<void> {
-    const user = await this.usersRepository.findByEmail(email);
+    const user = await this.usersRepository.findByConfirmedEmail(email);
 
     if (!user) {
       throw new AppError('User does not exists!');

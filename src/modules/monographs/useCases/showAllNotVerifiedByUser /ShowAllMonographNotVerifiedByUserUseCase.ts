@@ -24,7 +24,7 @@ class ShowAllMonographNotVerifiedByUserUseCase {
       throw new AppError('Email invalid!');
     }
 
-    const user = await this.usersRepository.findByEmail(user_email);
+    const user = await this.usersRepository.findByConfirmedEmail(user_email);
 
     if (!user) {
       throw new AppError('User does not exists!');

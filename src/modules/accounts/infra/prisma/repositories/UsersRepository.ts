@@ -24,13 +24,14 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
-  async findByEmail(email: string): Promise<User> {
+  async findByConfirmedEmail(email: string): Promise<User> {
     const user = await this.repository.user.findFirst({
       where: {
         email: {
           equals: email,
           mode: 'insensitive',
         },
+        email_confirmed: true,
       },
     });
 
@@ -41,6 +42,7 @@ class UsersRepository implements IUsersRepository {
     const user = await this.repository.user.findFirst({
       where: {
         id,
+        email_confirmed: true,
       },
     });
 
@@ -60,8 +62,15 @@ class UsersRepository implements IUsersRepository {
 
   async showAll(page = 1): Promise<IUserResponseDTO> {
     const result = await this.repository.$transaction([
-      this.repository.user.count({}),
+      this.repository.user.count({
+        where: {
+          email_confirmed: true,
+        },
+      }),
       this.repository.user.findMany({
+        where: {
+          email_confirmed: true,
+        },
         select: {
           id: true,
           email: true,
@@ -90,6 +99,7 @@ class UsersRepository implements IUsersRepository {
     const allAdvisors = this.repository.user.findMany({
       where: {
         isAdvisor: true,
+        email_confirmed: true,
       },
       select: {
         id: true,
@@ -106,6 +116,30 @@ class UsersRepository implements IUsersRepository {
         email,
       },
     });
+  }
+
+  async findWithoutConfirmEmail(id: string): Promise<User> {
+    const user = await this.repository.user.findFirst({
+      where: {
+        id,
+        email_confirmed: false,
+      },
+    });
+
+    return user;
+  }
+
+  async findAllByEmail(email: string): Promise<User> {
+    const user = await this.repository.user.findFirst({
+      where: {
+        email: {
+          equals: email,
+          mode: 'insensitive',
+        },
+      },
+    });
+
+    return user;
   }
 }
 

@@ -24,7 +24,7 @@ class SearchFilteredMonographUseCase {
     let user: User;
 
     if (data.user_email) {
-      user = await this.usersRepository.findByEmail(data.user_email);
+      user = await this.usersRepository.findByConfirmedEmail(data.user_email);
 
       if (!user) {
         throw new AppError('User does not exists!');

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import { ConfirmEmailController } from '@modules/accounts/useCases/confirmEmail/ConfirmEmailController';
 import { CreateUserController } from '@modules/accounts/useCases/createUser/CreateUserController';
 import { DeleteUserController } from '@modules/accounts/useCases/deleteUser/DeleteUserController';
 import { ProfileUserController } from '@modules/accounts/useCases/profileUser/ProfileUserController';
@@ -20,6 +21,7 @@ const updateUserAdvisorController = new UpdateUserAdvisorController();
 const showAllAdvisorController = new ShowAllAdvisorController();
 const updateUserController = new UpdateUserController();
 const deleteUserController = new DeleteUserController();
+const confirmEmailController = new ConfirmEmailController();
 
 usersRoutes.get(
   '/advisors',
@@ -37,6 +39,8 @@ usersRoutes.get(
 );
 
 usersRoutes.post('/', createUserController.handle);
+
+usersRoutes.patch('/confirm-email', confirmEmailController.handle);
 
 usersRoutes.put(
   '/update-advisor',

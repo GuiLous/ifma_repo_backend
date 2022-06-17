@@ -1,7 +1,7 @@
 import { compare, hash } from 'bcrypt';
 import { inject, injectable } from 'tsyringe';
 
-import { IUserResponseDTO } from '@modules/accounts/dtos/IUserResponseDTO';
+import { IUsers } from '@modules/accounts/dtos/IUserResponseDTO';
 import { UserMap } from '@modules/accounts/mapper/UserMap';
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
@@ -19,8 +19,8 @@ class UpdateUserUseCase {
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
   ) {}
-  async execute(data: IUpdateUserDatas): Promise<IUserResponseDTO> {
-    const user = await this.usersRepository.findByEmail(data.email);
+  async execute(data: IUpdateUserDatas): Promise<IUsers> {
+    const user = await this.usersRepository.findByConfirmedEmail(data.email);
 
     if (!user) {
       throw new AppError('User does not exists!');

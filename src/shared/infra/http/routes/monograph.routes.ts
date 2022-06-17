@@ -4,6 +4,7 @@ import multer from 'multer';
 import uploadConfig from '@config/upload';
 import { CreateMonographController } from '@modules/monographs/useCases/createMonograph/CreateMonographController';
 import { SearchFilteredMonographController } from '@modules/monographs/useCases/searchFilteredMonograph/SearchFilteredMonographController';
+import { SendEmailController } from '@modules/monographs/useCases/sendEmail/SendEmailController';
 import { ShowAllMonographNotVerifiedController } from '@modules/monographs/useCases/showAllNotVerified/ShowAllMonographNotVerifiedController';
 import { ShowAllMonographNotVerifiedByUserController } from '@modules/monographs/useCases/showAllNotVerifiedByUser /ShowAllMonographNotVerifiedByUserController';
 import { ShowAllRecusedVerificationController } from '@modules/monographs/useCases/showAllRecusedVerification/ShowAllRecusedVerificationController';
@@ -16,6 +17,7 @@ import { UpdateMonographVerifiedController } from '@modules/monographs/useCases/
 import { UploadPdfController } from '@modules/monographs/useCases/uploadPdf/UploadPdfController';
 
 import { ensureAdmin } from '../middlewares/ensureAdmin';
+import { ensureAdminOrAdvisor } from '../middlewares/ensureAdminOrAdvisor';
 import { ensureAuthenticated } from '../middlewares/ensureAuthenticated';
 
 const monographRoutes = Router();
@@ -42,6 +44,7 @@ const showAllRecusedVerificationController =
   new ShowAllRecusedVerificationController();
 const updateMonographCommentsController =
   new UpdateMonographCommentsController();
+const sendEmailController = new SendEmailController();
 
 monographRoutes.get('/monograph/:id', showMonographController.handle);
 
@@ -54,7 +57,7 @@ monographRoutes.get(
 monographRoutes.get(
   '/all/not-verified/:page',
   ensureAuthenticated,
-  ensureAdmin,
+  ensureAdminOrAdvisor,
   showAllMonographNotVerifiedController.handle,
 );
 
@@ -80,6 +83,12 @@ monographRoutes.post(
   createMonographController.handle,
 );
 
+monographRoutes.post(
+  '/send-email',
+  ensureAuthenticated,
+  sendEmailController.handle,
+);
+
 monographRoutes.patch(
   '/pdf-upload/:id',
   ensureAuthenticated,
@@ -90,7 +99,7 @@ monographRoutes.patch(
 monographRoutes.put(
   '/update-verified',
   ensureAuthenticated,
-  ensureAdmin,
+  ensureAdminOrAdvisor,
   updateMonographVerifiedController.handle,
 );
 

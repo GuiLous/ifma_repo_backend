@@ -35,7 +35,13 @@ class AuthenticateUserUseCase {
   ) {}
 
   async execute({ email, password }: IRequest): Promise<IResponse> {
-    const user = await this.usersRepository.findByEmail(email);
+    const user = await this.usersRepository.findByConfirmedEmail(email);
+    const userWithoutConfirm =
+      await this.usersRepository.findWithoutConfirmEmail(email);
+
+    if (userWithoutConfirm) {
+      throw new AppError('Email Confirmation Necessary!');
+    }
 
     if (!user) {
       throw new AppError('Email or password incorrect!');

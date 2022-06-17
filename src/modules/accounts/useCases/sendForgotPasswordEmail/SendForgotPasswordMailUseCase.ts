@@ -22,7 +22,7 @@ class SendForgotPasswordMailUseCase {
   ) {}
 
   async execute(email: string): Promise<void> {
-    const user = await this.usersRepository.findByEmail(email);
+    const user = await this.usersRepository.findByConfirmedEmail(email);
 
     const templatePath = resolve(
       __dirname,
