@@ -45,4 +45,4 @@ jobs:
             cd ~/app/ifma_repo_backend
             yarn
             yarn prisma migrate dev
-            pm2 repoifma_api restart
+            pm2 restart repoifma_api
