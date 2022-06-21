@@ -1,17 +1,33 @@
-// import { hash } from 'bcrypt';
-// import { v4 as uuidV4 } from 'uuid';
+import { hash } from 'bcrypt';
 
-// async function create() {
-//   const id = uuidV4();
-//   const password = await hash('admin', 8);
+import { PrismaClient } from '@prisma/client';
 
-//   await connection.query(
-//     `INSERT INTO USERS(id, name, email, password, "isAdmin", created_at, driver_license)
-//       values('${id}', 'admin', 'admin@rentx.com.br', '${password}', true, 'now()', 'ABC-123' )
-//     `,
-//   );
+const prisma = new PrismaClient();
 
-//   await connection.close;
-// }
+async function main() {
+  console.log(`Start admin seed...`);
 
-// create().then(() => console.log('User admin created'));
+  const passwordHash = await hash('biblioteca@ifma', 8);
+  const user = await prisma.user.create({
+    data: {
+      email: 'biblioteca@ifma.edu.br',
+      password: passwordHash,
+      fullName: 'Biblioteca admin user',
+      email_confirmed: true,
+      isAdmin: true,
+    },
+  });
+
+  console.log('Created user admin!');
+
+  console.log(`Admin Seed finished.`);
+}
+
+main()
+  .catch(e => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
