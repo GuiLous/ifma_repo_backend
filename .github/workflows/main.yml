@@ -42,7 +42,5 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           scripts: |
-            cd: ~/app/ifma_repo_backend
-            yarn
-            yarn prisma migrate dev
-            pm2 restart repoifma_api
+            whoami
+            pwd
